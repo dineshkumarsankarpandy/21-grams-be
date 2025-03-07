@@ -5,10 +5,12 @@ from .app_service import AppService
 from src.utils.logging import logger
 from src.utils.sessions import Base, engine
 from src.sitemap_generator.sitemap_generator_module import SitemapGeneratorModule
+from fastapi.middleware.cors import CORSMiddleware
+from src.website_generator.website_generator_module import WebsiteGeneratorModule
 
 
 @Module(
-    imports=[SitemapGeneratorModule],
+    imports=[SitemapGeneratorModule, WebsiteGeneratorModule],
     controllers=[AppController],
     providers=[AppService],
 )
@@ -24,6 +26,19 @@ app = PyNestFactory.create(
     debug=True,
 )
 http_server = app.get_server()
+http_server.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
+    allow_headers=[
+        "Content-Type",
+        "Accept",
+        "Authorization",
+        "x-skip-toast",
+        "sessionid",
+    ],
+)
 
 
 @http_server.on_event("startup")

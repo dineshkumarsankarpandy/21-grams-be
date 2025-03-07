@@ -27,6 +27,8 @@ class SitemapGeneratorController:
         try:
 
             result = await self.sitemap_generator_service.generate_sitemap_generator(data)
+            print('-----------------------------------')
+            print(result)
             return JSONResponse(content=result,status_code=status.HTTP_200_OK)
 
         except HTTPException as e:
@@ -34,6 +36,6 @@ class SitemapGeneratorController:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f'Internal server error : {str(e)}'
             )   
+    
 
 
- 
