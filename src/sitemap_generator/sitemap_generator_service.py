@@ -58,9 +58,11 @@ class SitemapGeneratorService:
            - If necessary, provide a **content strategy plan** for structuring and delivering content on the website.
 
         Ensure that all documentation is clear, accurate, and facilitates the smooth transition to the design phase of the projec
-        always stick with same response format that is mentioned below.
+        always stick with same response format that is mentioned below and always return the users business_name and business_description from thier input.
         **Example Output JSON:**
         {
+        "businessName:" "users business name here...",
+        "businessDescription:" "users description here..."
         "pages":[
         "pageTitle": "Home",//always generate first has Home.
         "sections": [
@@ -68,7 +70,7 @@ class SitemapGeneratorService:
             "sectionTitle": "section title here.......",
             "sectionDescription": "sections Description here...."
             }
-            
+        
         ]
 
         ]
@@ -76,7 +78,7 @@ class SitemapGeneratorService:
         """
  
         response = get_llm_response(
-            user_prompt=f"Generate a sitemap for the given {data.sitemap_prompt} ...",
+            user_prompt=f"Generate a sitemap for the given {data.business_name}, {data.business_description} {data.sitemap_prompt} ...",
             system_prompt=prompt
         )
         json_res = json.loads(response)

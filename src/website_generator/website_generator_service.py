@@ -72,13 +72,13 @@ class WebsiteGeneratorService:
         }
         """
         response = get_llm_response(
-            user_prompt=f"Please process the following JSON according to the instructions in the system prompt: {data.sections}",
+            user_prompt=f"Please process the following JSON according to the instructions in the system prompt:{data.sections}",
             system_prompt=prompt
         )
         json_res = json.loads(response)
 
         web_res = get_llm_response(
-            user_prompt= f"""Create a fully styled and animated homepage for{response}""",
+            user_prompt= f"""Create a fully styled and animated homepage for {data.businessName}, {data.businessDescription}, {response}""",
                 system_prompt = '''
 
                                     Your a AI developer who can Create a fully styled and animated homepage. 
