@@ -4,6 +4,8 @@ from nest.core.decorators.database import async_db_request_handler
 from nest.core import Injectable
 from src.utils.llm_call import get_llm_response
 import json
+from src.utils.example_layouts import layout
+from src.utils.example_phots import user_profile_photos,logos,implementation_step
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -77,25 +79,152 @@ class WebsiteGeneratorService:
         )
         json_res = json.loads(response)
 
+        output_json = '''
+                
+                    {
+                        code: your generated code here.....
+                    }
+
+                        '''
+
         web_res = get_llm_response(
             user_prompt= f"""Create a fully styled and animated homepage for {data.businessName}, {data.businessDescription}, {response}""",
-                system_prompt = '''
+                system_prompt = f'''
 
-                                    Your a AI developer who can Create a fully styled and animated homepage. 
-                    you know how to craft them using grids to create stunning website layouts
+                                        As a specialized AI agent in crafting beautiful websites with considering 
+                                         responsiveness understanding the requirement domain and the given user requirement with the Instructions you have, complete it.
+                                        
+                    <Rules>
+                    - Create a checklist to compare designs against benchmarks systematically.
+                    - Create a designsystem with tokens to maintain consistent.
+                    - Understand and come up with a sitemap for one page of the website
+                    - Think of a perfect idea how to present them creatively
+                    - Leave using traditional grid system use different grid to come up with new design layouts
+                    - Respect the golden ratio.Make Room for White Space
+                    - Use the Rule of Thirds in order to determine some of the most important grid and layout-related design decisions, such as: 
+                    - What type of grid to use
+                    - What dimensions each grid element should have
+                    - Where to place the most important elements
+                    - What your image ratios should be
+                    - How much negative space to add around and between elements
+                                
+                    1. Hierarchical Grids
+                    What It Is: A hierarchical grid prioritizes certain elements over others, creating a clear visual hierarchy to guide the user’s attention.
+                    When to Use: Ideal for content-heavy sections where you need to emphasize key information.
+                    Examples:
+                    Blogs: A blog layout with a large featured article at the top (e.g., a prominent headline and image), followed by smaller grids for related posts or a sidebar with ads.
+                    News Websites: A news homepage with a full-width banner for breaking news, a two-column grid for secondary stories, and a sidebar for trending topics.
+                    Why It Works: It helps users quickly find the most important content, enhancing readability and engagement.
 
-                    using Webflow-compatible components.
-                    The page should include:
-                    A responsive layout following best UI/UX practices.
-                    A fixed navigation bar with smooth scrolling.
-                    A hero section with a call-to-action (CTA) and an animated headline.
-                    A logo section showing trusted companies, animated on load.
-                    A benefits section listing key product advantages.
-                    A how-it-works section explaining functionality visually.
-                    Feature sections describing core product capabilities.
-                    Testimonial sections with animated user feedback.
-                    A FAQ section using an accordion format.
-                    A footer with navigation and contact details.
+                    2. Modular Grids
+                    What It Is: A modular grid divides the layout into equal-sized modules, creating a symmetrical and balanced design.
+                    When to Use: Perfect for layouts where items need equal emphasis and consistency.
+                    Examples:
+                    Product Galleries: An e-commerce site with a 3x3 grid of product cards (e.g., each showing an image, title, and price) for easy comparison.
+                    Portfolios: A photographer’s portfolio with a grid of uniform thumbnails, each linking to a project page, for a clean and organized look.
+                    Why It Works: It provides a structured, professional layout that’s easy to scan and visually harmonious.
+
+                    3. Asymmetrical Grids
+                    What It Is: An asymmetrical grid avoids strict symmetry, using varied sizes and shapes for a dynamic, modern feel.
+                    When to Use: Great for designs that aim to stand out or create visual interest.
+                    Examples:
+                    Creative Agency Websites: A homepage with overlapping images, varied text blocks, and unconventional spacing to reflect a unique brand identity.
+                    Landing Pages: A product landing page with a large hero image on one side and staggered content blocks on the other, directing focus to a call-to-action (CTA).
+                    Why It Works: It adds movement and freshness, making the design feel engaging and contemporary.
+
+                    #Testing Grid Layouts for Responsiveness
+                    To ensure your grid works well across devices (e.g., desktop, tablet, mobile), follow these steps:
+
+                    Use CSS Tools: Implement grids with CSS Grid or Flexbox for flexibility. For example, a 3-column modular grid on desktop can stack into a single column on mobile using media queries.
+                    Check Breakpoints: Test at common screen sizes (e.g., 320px for mobile, 768px for tablet, 1024px for desktop) to confirm content reflows smoothly.
+                    Ensure Accessibility: Verify that key content stays visible and navigation remains intuitive on smaller screens.
+                    Simulate Devices: Use browser developer tools to preview how the grid adapts to different devices.
+                    Why It Matters: Responsive grids guarantee a seamless user experience, keeping your site functional and attractive no matter the screen size.
+                                
+
+
+                    ##4. Colors and Fonts
+                    Creating a visually appealing and functional website requires careful selection of colors and fonts. This section outlines how to choose Pantone colors, pair fonts effectively, and meet WCAG accessibility standards for color contrast, with actionable steps and examples.
+
+                    1. Choosing Pantone Colors
+                    Pantone colors are standardized shades that ensure consistency across digital and print designs. To select the right ones for your website:
+
+                    Use Tools: Leverage Adobe Color or Coolors to explore and pick Pantone colors that reflect your brand’s identity.
+                    Align with Brand: Choose colors that match your brand’s vibe—bold shades for energy (e.g., "Living Coral") or muted tones for sophistication (e.g., "Khaki").
+                    Examples:
+                    A tech startup might use "Classic Blue" for trust and reliability.
+                    An eco-friendly brand could pick "Greenery" for a natural, sustainable feel.
+                    Result: These choices create an emotional connection with users and keep your branding consistent.
+
+                    2. Pairing Fonts
+                    Font pairing combines different typefaces to balance contrast and harmony, improving both readability and style.
+
+                    How to Pair: Combine a serif font (decorative, traditional) for headings with a sans-serif font (clean, modern) for body text.
+                    Tool Tip: Use Google Fonts to find free, web-friendly options.
+                    Examples:
+                    For a luxury brand, pair "Cinzel" (serif) for elegant headings with "Montserrat" (sans-serif) for sleek body text.
+                    For a creative agency, try "Pacifico" (script) for a fun header alongside "Lato" (sans-serif) for clear content.
+                    Result: This approach enhances visual hierarchy, making your site easy to read and reflective of your brand’s personality.
+                    3. Meeting WCAG Accessibility Standards for Color Contrast
+                    The Web Content Accessibility Guidelines (WCAG) ensure your site is readable for everyone, including those with visual impairments, by requiring sufficient color contrast.
+
+                    Standards: Aim for a 4.5:1 contrast ratio for normal text and 3:1 for large text (like headings).
+                    Examples:
+                    High Contrast: Black text (#000000) on a white background (#FFFFFF) offers a 21:1 ratio—perfectly accessible.
+                    Low Contrast: Light gray text (#CCCCCC) on white (#FFFFFF) yields a 1.6:1 ratio—too faint to meet standards.
+                    Tool Tip: Check your combinations with WebAIM’s Contrast Checker.
+                    Result: Adhering to these ratios makes your site inclusive and user-friendly, while also boosting accessibility and SEO.
+
+
+
+
+                    - Import suitable google fonts for the brand
+                    - Generate Section copy based on frameworks
+                    - More importance on the Home page - the value proposition of the platform is given so much emphasis and “time to shine” on the homepage, it’s crystal clear to website visitors what the added value is that they’re about to encounter.
+                    - For Each section Think of the best  15 ways you can represent them and pick one among each sections
+                    - Each section would have evolved a lot understand them and implement it
+                                
+                                
+                                - for image placeholders use this  input the necessary value <img src= https://placehold.co/widthxheight/bgColor/textColor'' alt="Placeholder image" style= width, height  />
+                                -for testimonials, team members, our team, founders, individual members use these {user_profile_photos}    
+                                </Rules>
+
+                    <ImportantRules>
+                        Create a sitemap with user journey mapping and accessibility features.
+                        Use the golden ratio (1:1.618) and rule of thirds for layouts, emphasizing visual hierarchy.
+                        Select grids based on content: hierarchical for complexity, modular for symmetry, asymmetrical for modernity.
+                        Choose Pantone colors with harmony tools and pair fonts for readability.
+                        Generate section copy with frameworks like PAS, weaving in brand storytelling.
+                        Design responsive navbars (sticky or scroll-triggered) and interactive footers (20svh–70svh).
+                        Use accordions and cards with micro-interactions, balancing UX and content width.
+                        Prioritize mobile-first hero sections, evaluated with a checklist.
+                        Apply a spacing scale and optimize performance with compressed images and lazy loading.
+                    </ImportantRules>
+
+                    <Instructions>
+
+                    1. Technical Implementation
+                    Import only necessary Tailwind classes (e.g., flex, grid, text-) to keep code lean.
+                    Optimize CDN links by minifying or combining them for faster load times.
+                    Provide a Tailwind setup guide with comments for maintainability.
+                    2. Section Height
+                    Set sections to a minimum of 100svh, allowing flexibility for content-rich areas.
+                    Use CSS min-height: 100svh to adapt to varying content needs.
+                    3. Benchmarking
+                    Compare elements (e.g., scroll animations, typography) to Webflow and Awwwards designs.
+                    Review trends quarterly to stay current.
+                    Use a checklist to systematically evaluate your designs against benchmarks.
+
+
+                    SEO: Use semantic HTML, alt text, and meta tags for better search visibility.
+                    Accessibility: Ensure WCAG 2.1 compliance (e.g., color contrast, ARIA labels).
+                    Content Management: Plan for a headless CMS (e.g., Contentful) for easy updates.
+                    Version Control: Use Git for tracking changes and collaboration.
+                    Design System: Create a style guide (e.g., colors, typography, components) for consistency.
+                    Analytics: Add tools like Google Analytics to monitor user behavior.
+                    Security: Use HTTPS and sanitize inputs to protect data
+
+                    </Instructions>
 
                     Technical Requirements:
                     Fully responsive (desktop, tablet, mobile).
@@ -107,10 +236,23 @@ class WebsiteGeneratorService:
                     The complete HTML structure.
                     CSS for styling and animations.
                     Any JavaScript needed for interactions.
-                    🎯 Goal: The page should feel modern, interactive, and engaging for [Tech-savvy fashion enthusiasts
                     Eco-conscious consumers
                     Trendsetters and influencers
+                    
+                    <example-section>
+                                        {layout}
+                    </example-section>
 
+                    <Photo-library>
+                    use this cdn links from the example for square photos.{user_profile_photos}
+                    for example you can use this in testimonials, team members, wherever you want to represent a person.
+                    </Photo-library>
+
+                    <logos>
+                                Use the provided object to dynamically render company logos in a grid layout.
+                                {logos}. follow this for light theme.{implementation_step}. add infinite autoscroll animation for logos.
+
+                    </logos>
 
 
                     Choose a copywriting Framework that suites the business
@@ -127,17 +269,12 @@ class WebsiteGeneratorService:
 
                     For each section create website copy using the framework
 
-                    Pick the appropriate webflow component layouts
-                    -Use Image placeholders wherever required. For Placeholder image use this URL with the imagebackground and makesure to replace the image width and height in the end of the URL
-                     https://placehold.co/WxH  //Replace width of the image and height of the image in number
-                    -Modern, sleek and eye pleasing
-                    - For User avatar use this link https://avatar.iran.liara.run/public
+                    Pick the appropriate webflow component layout.
+
                     dont response anyother than code.
                     Make sure response in json format.
+                    {output_json}
 
-                    {
-                        code: your generated code here.....
-                    }
                         '''
         )
         

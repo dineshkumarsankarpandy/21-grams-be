@@ -8,6 +8,7 @@ import json
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.utils.llm_call import get_llm_response
+from src.utils.example import PageExamples
 
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
@@ -28,11 +29,29 @@ class SitemapGeneratorService:
         return result.scalars().all()
 
     async def generate_sitemap_generator(self, data: SitemapGenerator):
-        prompt = """
+
+        output_json =  '''{
+            "businessName:" "users business name here...",
+            "businessDescription:" "users description here..."
+            "pages":[
+            "pageTitle": "Home", 
+            "sections": [
+                {
+                "sectionTitle": "section title here.......",
+                "sectionDescription": "sections Description here...."
+                }
+
+            ]
+
+            ]
+            }'''
+        
+
+        prompt = f"""
     You are a Business Analyst in a website design project. Your role is to ensure the website’s structure aligns with the client’s business goals, functional requirements, and user needs. Specifically, you are responsible for identifying or generating the website’s sitemap.
-         
+
          Here's how you should approach your task:
-         
+
         1. **Gather and Document Key Information:**
            - Conduct **client interviews** and workshops to understand business goals, target audience, and functional requirements.
            - Collaborate with stakeholders (e.g., marketing, sales teams) to identify internal requirements.
@@ -57,28 +76,16 @@ class SitemapGeneratorService:
            - Document **user stories** or **use cases** that align with the sitemap.
            - If necessary, provide a **content strategy plan** for structuring and delivering content on the website.
 
-        Ensure that all documentation is clear, accurate, and facilitates the smooth transition to the design phase of the projec
+        Ensure that all documentation is clear, accurate, and facilitates the smooth transition to the design phase of the project.
+        Generate sitemap, refer this {PageExamples} json examples. if navbar and footer description is empty generate possible description.
         always stick with same response format that is mentioned below and always return the users business_name and business_description from thier input.
         **Example Output JSON:**
-        {
-        "businessName:" "users business name here...",
-        "businessDescription:" "users description here..."
-        "pages":[
-        "pageTitle": "Home",//always generate first has Home.
-        "sections": [
-            {
-            "sectionTitle": "section title here.......",
-            "sectionDescription": "sections Description here...."
-            }
-        
-        ]
-
-        ]
-        }
+            {output_json}
+           
         """
- 
+
         response = get_llm_response(
-            user_prompt=f"Generate a sitemap for the given {data.business_name}, {data.business_description} {data.sitemap_prompt} ...",
+            user_prompt=f"Generate a sitemap for the given {data.business_name}, {data.business_description}, {data.sitemap_prompt}. make sure to generate number of pages based on the user's given {data.page} requirement",
             system_prompt=prompt
         )
         json_res = json.loads(response)
