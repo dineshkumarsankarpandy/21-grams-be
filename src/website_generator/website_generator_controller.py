@@ -6,7 +6,6 @@ from fastapi import status, HTTPException
 from .website_generator_service import WebsiteGeneratorService
 from .website_generator_model import Sitemap
 
-
 @Controller("website_generator", tag="website_generator")
 class WebsiteGeneratorController:
 

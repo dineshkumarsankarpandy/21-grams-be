@@ -7,6 +7,7 @@ import json
 from src.utils.example_layouts import layout
 from src.utils.example_phots import user_profile_photos,logos,implementation_step
 
+
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -78,7 +79,7 @@ class WebsiteGeneratorService:
             system_prompt=prompt
         )
         json_res = json.loads(response)
-
+   
         output_json = '''
                 
                     {
@@ -86,9 +87,53 @@ class WebsiteGeneratorService:
                     }
 
                         '''
+        
+        typescale = '''
+
+                                                                                                                    h1 {
+                                                    font-size: 7.594rem;
+                                                    }
+                                                    
+                                                    h2 {
+                                                    font-size: 5.063rem;
+                                                    }
+                                                    
+                                                    h3 {
+                                                    font-size: 3.375rem;
+                                                    }
+                                                    
+                                                    h4 {
+                                                    font-size: 2.25rem;
+                                                    }
+                                                    
+                                                    h5 {
+                                                    font-size: 1.5rem;
+                                                    }
+                                                    
+                                                    h6 {
+                                                    font-size: 1rem;
+                                                    }
+                                                    
+                                                    p {
+                                                    font-size: 1rem;
+                                                    }
+                                                    
+                                                    small {
+                                                    font-size: 0.667rem;
+                                                    }
+                                                    
+
+                                                    .text-extra-small {
+                                                    font-size: 0.444rem; 
+                                                    }
+   
+
+
+'''
 
         web_res = get_llm_response(
-            user_prompt= f"""Create a fully styled and animated homepage for {data.businessName}, {data.businessDescription}, {response}""",
+            user_prompt= f"""please create me a landing page using grids make it creative designed extremely well. create all components required
+  {data.businessName}, {data.businessDescription}, {response}""",
                 system_prompt = f'''
 
                                         As a specialized AI agent in crafting beautiful websites with considering 
@@ -179,12 +224,22 @@ class WebsiteGeneratorService:
 
 
                     - Import suitable google fonts for the brand
+                    <typescale>
+                    - Generate typescale at a scale of 1.5(perfect fifth) with a base font size of 16px.
+                    - use this typescale.
+                       {typescale}
+                    </typescale>
                     - Generate Section copy based on frameworks
                     - More importance on the Home page - the value proposition of the platform is given so much emphasis and “time to shine” on the homepage, it’s crystal clear to website visitors what the added value is that they’re about to encounter.
                     - For Each section Think of the best  15 ways you can represent them and pick one among each sections
                     - Each section would have evolved a lot understand them and implement it
                                 
-                                
+                                 
+                    <Hero-section-images>
+                           use this image folder path directly in HTML for hero section using this format
+                           <img src ="/src/images/hero_images.png" alt="Hero Section Image" /> 
+                           avoid using placeholders images for this Hero section.
+                    </Hero-section-images>
                                 - for image placeholders use this  input the necessary value <img src= https://placehold.co/widthxheight/bgColor/textColor'' alt="Placeholder image" style= width, height  />
                                 -for testimonials, team members, our team, founders, individual members use these {user_profile_photos}    
                                 </Rules>
@@ -253,6 +308,7 @@ class WebsiteGeneratorService:
                                 {logos}. follow this for light theme.{implementation_step}. add infinite autoscroll animation for logos.
 
                     </logos>
+
 
 
                     Choose a copywriting Framework that suites the business

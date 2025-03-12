@@ -10,6 +10,7 @@ class Section(BaseModel):
 class Sitemap(BaseModel):
     businessName: str = Field(...)
     businessDescription: str = Field(...)
+    imageUrl:str = Field(...)
     pageTitle: str = Field(...)
     sections: List[Section] = Field(...)
 

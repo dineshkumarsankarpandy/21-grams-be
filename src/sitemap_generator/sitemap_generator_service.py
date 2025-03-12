@@ -5,16 +5,20 @@ from nest.core import Injectable
 import openai
 import os
 import json
+import requests
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.utils.llm_call import get_llm_response
 from src.utils.example import PageExamples
+import base64
+import uuid
+
 
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 @Injectable
 class SitemapGeneratorService:
-
+    
     @async_db_request_handler
     async def add_sitemap_generator(self, sitemap_generator: SitemapGenerator, session: AsyncSession):
         new_sitemap_generator = SitemapGeneratorEntity(**sitemap_generator.dict())
@@ -27,6 +31,72 @@ class SitemapGeneratorService:
         query = select(SitemapGeneratorEntity)
         result = await session.execute(query)
         return result.scalars().all()
+    
+
+    def generate_image(self, prompt, negative_prompt = None, width= 1024, height=1024, 
+                       steps=4, model = "flux1-schnell-fp8.safetensors",batch_size =1,
+                       cfg=1.0, sampler_name="euler", scheduler="simple", guidance=3.5 
+                       
+                       ):
+         
+        
+         url = "http://192.168.0.120:5000/api/generate"
+         payload = {
+            "positive_prompt": prompt,
+            "negative_prompt": negative_prompt,
+            "width": width,
+            "height": height,
+            "steps": steps,
+            "model": model,
+            "batch_size": batch_size,
+            "cfg": cfg,
+            "sampler_name": sampler_name,
+            "scheduler": scheduler,
+            "guidance": guidance
+        }
+         
+         headers = {"Content-Type": "application/json"}
+         response =  requests.post(url, json=payload, headers=headers)
+         if response.status_code == 200:
+            data = response.json()
+            if data.get("success"):
+                # Return the base64 image data from the first generated image.
+                return data["images"][0]["base64"]
+            else:
+                raise Exception(f"Image generation failed: {data.get('error')}")
+         else:
+            raise Exception(f"HTTP error: {response.status_code}")
+         
+    
+    def save_base_64(self, base64_data, folder = "src/assets", image_format = "png",filename = None):
+
+        if base64_data.startswith("data:image"):
+            _,base64_data = base64_data.split(",",1)
+        
+        image_data = base64.b64decode(base64_data)
+        os.makedirs(folder,exist_ok=True)
+        if filename is None:
+            filename = f"{uuid.uuid4()}.{image_format}"
+
+        
+        else:
+            if not filename.endswith(f".{image_format}"):
+                filename = f"{filename}.{image_format}"
+
+        file_path = os.path.join(folder,filename)
+        
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        
+        with open(file_path,"wb") as f:
+            f.write(image_data)
+
+        image_url = f"/static/images/{filename}"
+
+        return image_url
+    
+
+
 
     async def generate_sitemap_generator(self, data: SitemapGenerator):
 
@@ -89,6 +159,23 @@ class SitemapGeneratorService:
             system_prompt=prompt
         )
         json_res = json.loads(response)
+
+
+        hero_prompt = f"Generate a high-quality hero section image for a website representing the business '{data.business_description}. only generate the image Dont generate anyother contents.'."
+
+        try:
+            hero_image = self.generate_image(hero_prompt)
+            hero_image_url = self.save_base_64(
+
+                hero_image,
+                folder="src/images",
+                image_format="png",
+                filename="hero_image"
+
+            )
+            json_res["imageUrl"] = hero_image_url
+        except Exception as e :
+            json_res["imageUrl"] = None
         return json_res
 
 
