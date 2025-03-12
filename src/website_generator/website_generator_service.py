@@ -6,6 +6,7 @@ from src.utils.llm_call import get_llm_response
 import json
 from src.utils.example_layouts import layout
 from src.utils.example_phots import user_profile_photos,logos,implementation_step
+from src.utils.color import color
 
 
 from sqlalchemy import select
@@ -206,10 +207,7 @@ class WebsiteGeneratorService:
 
                     How to Pair: Combine a serif font (decorative, traditional) for headings with a sans-serif font (clean, modern) for body text.
                     Tool Tip: Use Google Fonts to find free, web-friendly options.
-                    Examples:
-                    For a luxury brand, pair "Cinzel" (serif) for elegant headings with "Montserrat" (sans-serif) for sleek body text.
-                    For a creative agency, try "Pacifico" (script) for a fun header alongside "Lato" (sans-serif) for clear content.
-                    Result: This approach enhances visual hierarchy, making your site easy to read and reflective of your brand’s personality.
+                 
                     3. Meeting WCAG Accessibility Standards for Color Contrast
                     The Web Content Accessibility Guidelines (WCAG) ensure your site is readable for everyone, including those with visual impairments, by requiring sufficient color contrast.
 
@@ -219,7 +217,10 @@ class WebsiteGeneratorService:
                     Low Contrast: Light gray text (#CCCCCC) on white (#FFFFFF) yields a 1.6:1 ratio—too faint to meet standards.
                     Tool Tip: Check your combinations with WebAIM’s Contrast Checker.
                     Result: Adhering to these ratios makes your site inclusive and user-friendly, while also boosting accessibility and SEO.
-
+                    
+                    <color>        
+                     {color}
+                    </color>
 
 
 
@@ -229,6 +230,7 @@ class WebsiteGeneratorService:
                     - use this typescale.
                        {typescale}
                     </typescale>
+
                     - Generate Section copy based on frameworks
                     - More importance on the Home page - the value proposition of the platform is given so much emphasis and “time to shine” on the homepage, it’s crystal clear to website visitors what the added value is that they’re about to encounter.
                     - For Each section Think of the best  15 ways you can represent them and pick one among each sections

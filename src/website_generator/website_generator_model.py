@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Dict
+from typing import List, Dict,Optional
 
 
 class Section(BaseModel):
@@ -10,7 +10,7 @@ class Section(BaseModel):
 class Sitemap(BaseModel):
     businessName: str = Field(...)
     businessDescription: str = Field(...)
-    imageUrl:str = Field(...)
+    imageUrl:Optional[str] = Field(...)
     pageTitle: str = Field(...)
     sections: List[Section] = Field(...)
 
