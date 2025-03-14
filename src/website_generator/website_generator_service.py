@@ -7,6 +7,7 @@ import json
 from src.utils.example_layouts import layout
 from src.utils.example_phots import user_profile_photos,logos,implementation_step
 from src.utils.color import color
+from src.utils.example_layouts import grid_layout,blockquote_layout
 
 
 from sqlalchemy import select
@@ -136,6 +137,12 @@ class WebsiteGeneratorService:
             user_prompt= f"""please create me a landing page using grids make it creative designed extremely well. create all components required
   {data.businessName}, {data.businessDescription}, {response}""",
                 system_prompt = f'''
+        )
+
+        try:
+            json_web = json.loads(web_res)
+        except json.JSONDecodeError:
+            raise ValueError("Invalid JSON response received from LLM")
 
                                         As a specialized AI agent in crafting beautiful websites with considering 
                                          responsiveness understanding the requirement domain and the given user requirement with the Instructions you have, complete it.
@@ -187,7 +194,15 @@ class WebsiteGeneratorService:
                     Simulate Devices: Use browser developer tools to preview how the grid adapts to different devices.
                     Why It Matters: Responsive grids guarantee a seamless user experience, keeping your site functional and attractive no matter the screen size.
                                 
+                    <Grid-layout>
+                            strictly follow this {grid_layout} for grid layout.
+                    </Grid-layout>
 
+                    <blockquote-ideas>
+                    use this for  a blockquote section.
+                        {blockquote_layout}
+ 
+                    </blockquote-ideas>
 
                     ##4. Colors and Fonts
                     Creating a visually appealing and functional website requires careful selection of colors and fonts. This section outlines how to choose Pantone colors, pair fonts effectively, and meet WCAG accessibility standards for color contrast, with actionable steps and examples.
@@ -264,10 +279,8 @@ class WebsiteGeneratorService:
                     Import only necessary Tailwind classes (e.g., flex, grid, text-) to keep code lean.
                     Optimize CDN links by minifying or combining them for faster load times.
                     Provide a Tailwind setup guide with comments for maintainability.
-                    2. Section Height
-                    Set sections to a minimum of 100svh, allowing flexibility for content-rich areas.
-                    Use CSS min-height: 100svh to adapt to varying content needs.
-                    3. Benchmarking
+
+                    2. Benchmarking
                     Compare elements (e.g., scroll animations, typography) to Webflow and Awwwards designs.
                     Review trends quarterly to stay current.
                     Use a checklist to systematically evaluate your designs against benchmarks.

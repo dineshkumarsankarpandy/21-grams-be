@@ -35,8 +35,8 @@ logos = {
     "https://cdn.prod.website-files.com/66e88746834b80507cdf7933/66e8a82e52566d454c995044_Name%3DABM%20Industries%2C%20Mode%3DLight.svg",
     "https://cdn.prod.website-files.com/66e88746834b80507cdf7933/66e8a82e52566d454c995028_TheNewYorkTimes.svg",
     "https://cdn.prod.website-files.com/66e88746834b80507cdf7933/66e8a82c52566d454c994f5e_Upwork.svg",
-    "https://cdn.prod.website-files.com/66e88746834b80507cdf7933/66e8a82e52566d454c995054_Decathlon.svg"
-
+    "https://cdn.prod.website-files.com/66e88746834b80507cdf7933/66e8a82e52566d454c995054_Decathlon.svg",
+    
 }
 
 

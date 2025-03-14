@@ -1,10 +1,10 @@
 color = '''
    {
   "theme": {
-    "primaryColor": "#FC8019",
-    "primaryHue": 23,  // Hue for calculations
-    "primarySaturation": 98, // Saturation for calculations
-    "primaryLightness": 54 // Lightness for calculations
+    "primaryColor": // use primary color here,
+    "primaryHue":   // take Hue value of primay color 
+    "primarySaturation": // take Saturation value of primary color
+    "primaryLightness": // take Lightness value of primary color
   },
   "colors": {
     "surface": {

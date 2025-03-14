@@ -7,10 +7,11 @@ from src.utils.sessions import Base, engine
 from src.sitemap_generator.sitemap_generator_module import SitemapGeneratorModule
 from fastapi.middleware.cors import CORSMiddleware
 from src.website_generator.website_generator_module import WebsiteGeneratorModule
+from src.website_image.website_image_module import WebsiteImageModule
 
 
 @Module(
-    imports=[SitemapGeneratorModule, WebsiteGeneratorModule],
+    imports=[SitemapGeneratorModule, WebsiteGeneratorModule, WebsiteImageModule],
     controllers=[AppController],
     providers=[AppService],
 )

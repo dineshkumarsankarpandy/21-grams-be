@@ -247,3 +247,175 @@ img {
 
 
     """
+
+
+blockquote_layout = '''
+                                       <section>
+                                        <div>
+                                        <figure>
+                                            <blockquote>
+                                            <span>Figma brings together designers, project managers, product managers, and engineers. The quality of feedback is 10x better.</span>
+                                            </blockquote>
+                                            <div class=" ">
+                                            <figcaption>
+                                                <p>Shawn Lam, Head of Design, Zoom</p>
+                                            </figcaption>
+                                            <img width="160" height="66" alt="zoom logo" src="https://cdn.sanity.io/images/599r6htc/regionalized/55849a17b1f1c0e4b6844dc94c257e25ce68d8c9-156x64.svg?q=75&amp;fit=max&amp;auto=format">
+                                            </div>
+                                        </figure>
+                                        </div>
+                                    </section>  
+
+                                     blockquote {
+                                            font-family:'Times New Roman', Times, serif;
+                                            font-size: 3.2rem;
+                                            font-style: italic;
+                                            color: #333;
+                                            border-left: 4px solid #0073e6;
+                                            padding-left: 1.5rem;
+                                            max-width: 45ch;
+                                        }
+ 
+                                    figcaption {
+                                      font-family: semi-bold;
+                                      font-size: 2rem;
+                                      color: #555;
+                                    }
+                                
+                                    .grid{
+                                        grid-template-rows: auto;
+                                
+                                    }
+
+
+'''
+
+
+grid_layout = """
+
+      {
+  "ai_agent_instructions": {
+    "start": {
+      "identify_context": [
+        "Detect device & viewport size",
+        "Analyze content type (Text, Images, Data, Mixed, Ecommerce, Dashboard, Form-based UI, etc.)",
+        "Extract user behavior insights (Eye-tracking, Click heatmaps, Scroll-depth)",
+        "Check accessibility requirements (WCAG compliance, contrast, keyboard navigation)"
+      ],
+      "decision_triggers": [
+        "If text-heavy → Use Baseline Grid",
+        "If image-heavy → Use Masonry or Modular Grid",
+        "If data-driven → Use Bento Grid or Card-based Grid",
+        "If mixed content → Use Asymmetric or 12-column Grid",
+        "If ecommerce → Use 4-5 column Grid with product cards",
+        "If dashboard → Use Card-based Grid or Bento Grid for modular sections",
+        "If form-based UI → Use Single-column or Multi-step Grid",
+        "If storytelling UI → Use Asymmetric or Freeform Grid",
+        "If complex analytics UI → Use Flexible Modular Grid with nested sections"
+      ],
+      "fallback_strategy": "Default to 12-column Grid with auto-adaptive behavior if no clear match is found"
+    },
+    "adaptive_behavior": {
+      "viewport_changes": {
+        "mobile": "1-column layout",
+        "tablet": "2-3 column layout",
+        "desktop": "4-6 column layout",
+        "large_screens": "Responsive multi-column with max-width handling"
+      },
+      "dynamic_content": {
+        "auto_reflow": true,
+        "animation": "smooth-transition"
+      },
+      "wcag_adaptation": {
+        "touch_target_minimum": "44px",
+        "contrast_ratio": "4.5:1 minimum",
+        "keyboard_navigation": true
+      }
+    },
+    "grid_selection_logic": {
+      "text_heavy": "Baseline Grid",
+      "image_heavy": "Masonry or Modular Grid",
+      "data_driven": "Bento Grid or Card-based Grid",
+      "ecommerce": "4-5 column Grid with adaptive card sizes",
+      "landing_page": "Asymmetric or 12-column Grid",
+      "dashboard": "Card-based Grid with nested modular sections",
+      "form_ui": "Single-column Grid for focus & Multi-step Grid for user journey",
+      "storytelling_ui": "Asymmetric or Freeform Grid for creative layouts",
+      "analytics_dashboard": "Flexible Modular Grid with hierarchical data layout",
+      "hybrid_grid_decision": "AI dynamically selects grids for sections with mixed content"
+    },
+    "hybrid_grids": {
+      "header": "Full-width or Asymmetric Grid",
+      "body": "12-column or Flexible Modular Grid",
+      "sidebar": "Fixed Column Grid",
+      "footer": "Baseline Grid for alignment"
+    },
+    "user_behavior_analysis": {
+      "eye_tracking": {
+        "hotspot_zones": ["top-left", "center", "F-pattern", "Z-pattern"],
+        "adjust_grid_weight": true
+      },
+      "interaction_data": {
+        "click_density": "high",
+        "scroll_depth": "moderate",
+        "preferred_layout": "masonry_grid or card_grid based on engagement"
+      },
+      "adaptive_ui": {
+        "personalized_grids": true,
+        "history_based_suggestions": true
+      }
+    },
+    "machine_learning": {
+      "train_on_user_data": true,
+      "feedback_loop": "Adjust grid selection based on user engagement",
+      "dataset": "Historical layout performance"
+    },
+    "component_placement": {
+      "hero_section": "Full-width Asymmetric Grid",
+      "product_list": "Masonry Grid for dynamic image sizes",
+      "form_section": "Single-column Grid for user focus",
+      "dashboard_cards": "Card-based Grid with nested sections",
+      "navigation_menu": "Fixed or Flexbox Grid",
+      "feature_highlight": "Modular Grid with emphasized focus",
+      "testimonials_section": "Carousel or 3-column Grid",
+      "pricing_table": "4-column or Card-based Grid",
+      "blog_list": "Masonry or Card Grid",
+      "gallery": "Masonry or Modular Grid",
+      "call_to_action": "Full-width Centered Grid",
+      "footer_links": "Baseline or Multi-column Grid",
+      "sidebar_widgets": "Fixed Column or Flexible Grid",
+      "search_results": "Card Grid or List View with filtering",
+      "user_profile": "Two-column layout with a sidebar",
+      "notifications": "Stacked Grid or Dropdown",
+      "checkout_page": "Multi-step or Single-column Grid",
+      "error_pages": "Centered Grid with prominent messaging"
+    },
+    "decision_flow": [
+      "Detect device & viewport size",
+      "Analyze content type",
+      "Map to the best-fit grid",
+      "Adjust based on user interaction",
+      "Apply real-time changes",
+      "Check accessibility compliance",
+      "Output a framework-specific implementation"
+    ],
+    "framework_integration": {
+      "bootstrap": { "grid_type": "12-column", "class": "row-cols-auto", "supports_flex": true },
+      "tailwind_css": { "grid_type": "CSS Grid/Flexbox", "class": "grid-cols-12", "supports_auto_layout": true },
+      "material_ui": { "grid_type": "Container/Grid Item", "class": "spacing-system", "supports_breakpoints": true }
+    },
+    "experimental_layouts": {
+      "AI_generated_grids": "Dynamic grid systems that adapt based on past user engagement and real-time content analysis",
+      "3D_ui_support": "Experimental grid structures for immersive design environments"
+    },
+    "end": {
+      "final_output": {
+        "optimized_grid": "Best-matched grid based on content & user data",
+        "ui_flexibility": "Ensuring adaptability for future changes",
+        "code_snippets": "Provide ready-to-use grid code"
+      }
+    }
+  }
+}
+
+"""
