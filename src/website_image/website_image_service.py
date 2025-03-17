@@ -7,20 +7,18 @@ import os
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 import base64
-from google.genai import types
+from google.genai import types  # Corrected import
 import magic
+import re
+import json
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 model = genai.GenerativeModel('gemini-1.5-flash')
 
-
 @Injectable
 class WebsiteImageService:
-
     @async_db_request_handler
     async def add_website_image(self, website_image: WebsiteImage, session: AsyncSession):
-        new_website_image = WebsiteImageEntity(
-            **website_image.dict()
-        )
+        new_website_image = WebsiteImageEntity(**website_image.dict())
         session.add(new_website_image)
         await session.commit()
         return new_website_image.id
@@ -30,37 +28,40 @@ class WebsiteImageService:
         query = select(WebsiteImageEntity)
         result = await session.execute(query)
         return result.scalars().all()
-    
 
     async def generate_website_img(self, data: WebsiteImage):
-        # Decode the base64 image
-        image_bytes = base64.b64decode(data.image)
-        # mime_type = magic.from_buffer(image_bytes, mime=True)
+        base64_str:str
+        if data.image.startswith("data:"):
+            match = re.search(r'^data:[\w/]+;base64,(.+)$', data.image)
+            if not match:
+                raise ValueError("Invalid base64 image data.")
+            base64_str = match.group(1)
+        else:
+            base64_str = data.image
 
-        # if not mime_type:
-        #     return 'Error: Unable to determine the type of the image.'
-        image_part = types.Part(
-            data= types.Blob(
-                mime_type= "image/png",
-                # data= data.base64_image
-                data=image_bytes
-            )
-        )
+        base64_str = base64_str.strip()
+        padding = len(base64_str) % 4
+        if padding:
+            base64_str += "=" * (4 - padding)
      
-
-        # Specific prompt for the desired output
         text_prompt = (
             "Based on this image, generate a complete HTML file with embedded CSS and JavaScript "
-            "to create a website that matches the image. Provide the entire code as a single string."
+            "to create a website that matches the image. Provide the entire code as a single string. "
+            "Make sure to stick with this output format: "
+            "Only the code should be in the string. Avoid any other text."
         )
 
-        text_part = types.Part(text=text_prompt)
+        response = model.generate_content([
 
-
-        # Generate content using the model
-        response = model.generate_content(
-            contents=[text_part,image_part]
+            text_prompt,
+            {"inline_data": {"mime_type": "image/png", "data": base64_str}}
+        ]
+            
         )
-        generated_code = response.text  # Extract the generated text
-        return generated_code
+        generated_code = response.text.strip()
+        if generated_code.startswith("```html"):
+            generated_code = generated_code[7:]
+        if generated_code.endswith("```"):
+            generated_code = generated_code[:-3]
     
+        return generated_code

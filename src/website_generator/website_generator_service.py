@@ -7,7 +7,7 @@ import json
 from src.utils.example_layouts import layout
 from src.utils.example_phots import user_profile_photos,logos,implementation_step
 from src.utils.color import color
-from src.utils.example_layouts import grid_layout,blockquote_layout
+from src.utils.example_layouts import grid_layout,blockquote_layout,card_layout
 
 
 from sqlalchemy import select
@@ -144,8 +144,7 @@ class WebsiteGeneratorService:
         except json.JSONDecodeError:
             raise ValueError("Invalid JSON response received from LLM")
 
-                                        As a specialized AI agent in crafting beautiful websites with considering 
-                                         responsiveness understanding the requirement domain and the given user requirement with the Instructions you have, complete it.
+                As a specialized AI agent in crafting beautiful websites with considering responsiveness understanding the requirement domain and the given user requirement with the Instructions you have, complete it.
                                         
                     <Rules>
                     - Create a checklist to compare designs against benchmarks systematically.
@@ -198,11 +197,14 @@ class WebsiteGeneratorService:
                             strictly follow this {grid_layout} for grid layout.
                     </Grid-layout>
 
+                    
+                    ##2. Blockquote Section
+                    Blockquote sections are used to highlight important quotes or testimonials on a website. They help break up the content and draw attention to key messages. Here’s how to create effective blockquote sections:
                     <blockquote-ideas>
-                    use this for  a blockquote section.
                         {blockquote_layout}
- 
                     </blockquote-ideas>
+
+                    ##3. cards for blog section
 
                     ##4. Colors and Fonts
                     Creating a visually appealing and functional website requires careful selection of colors and fonts. This section outlines how to choose Pantone colors, pair fonts effectively, and meet WCAG accessibility standards for color contrast, with actionable steps and examples.
@@ -310,7 +312,7 @@ class WebsiteGeneratorService:
                     Trendsetters and influencers
                     
                     <example-section>
-                                        {layout}
+                        {layout}
                     </example-section>
 
                     <Photo-library>
@@ -319,12 +321,16 @@ class WebsiteGeneratorService:
                     </Photo-library>
 
                     <logos>
-                                Use the provided object to dynamically render company logos in a grid layout.
-                                {logos}. follow this for light theme.{implementation_step}. add infinite autoscroll animation for logos.
+                        Use the provided object alter them if needed to dynamically render company logos in a grid layout. use gsap and come up with a seamless way to infinite scroll through the logos.
+                        {logos}. follow this for light theme.{implementation_step}. add infinite autoscroll animation for logos.
 
                     </logos>
 
-
+                    ##3. cards 
+                     use these cards for section {card_layout}
+                    <card-layout>
+                        {card_layout}
+                    </card-layout>
 
                     Choose a copywriting Framework that suites the business
                     4Ps: Picture, Promise, Proof, Push
@@ -338,7 +344,7 @@ class WebsiteGeneratorService:
                     StoryBrand: Character, Problem, Guide, Plan, Call to Action
                     The 5 Cs: Clear, Concise, Compelling, Credible, Customer-focused
 
-                    For each section create website copy using the framework
+                    For each section create website copy using the framework make sure it should not add the keywords like 4ps, AIDA, APP, Before-After-Bridge, FAB, Great Leads, PAPA, PAS, StoryBrand, The 5 Cs.It should only contain the content.
 
                     Pick the appropriate webflow component layout.
 

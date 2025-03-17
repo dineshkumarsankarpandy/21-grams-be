@@ -260,20 +260,22 @@ blockquote_layout = '''
                                             <figcaption>
                                                 <p>Shawn Lam, Head of Design, Zoom</p>
                                             </figcaption>
-                                            <img width="160" height="66" alt="zoom logo" src="https://cdn.sanity.io/images/599r6htc/regionalized/55849a17b1f1c0e4b6844dc94c257e25ce68d8c9-156x64.svg?q=75&amp;fit=max&amp;auto=format">
                                             </div>
                                         </figure>
                                         </div>
                                     </section>  
 
                                      blockquote {
-                                            font-family:'Times New Roman', Times, serif;
-                                            font-size: 3.2rem;
-                                            font-style: italic;
-                                            color: #333;
-                                            border-left: 4px solid #0073e6;
-                                            padding-left: 1.5rem;
-                                            max-width: 45ch;
+                                            font-family: //Add suitable font-family
+                                            font-size: //Add suitable font-size
+                                            font-weight: //Add suitable font-weight
+                                            font-style: italic; //Italicize the quote
+                                            color: ; //Add suitable color
+                                            border-left: 4px solid #0073e6; //Add a left border to the quote with appropriate color
+                                            padding-left: 1.5rem; //Add padding to the left of the quote
+                                            margin: 0; //Remove default margin
+                                            max-width: 45ch; //Set a maximum width for the quote
+                                            line-height: 1.6; //Set the line height for the quote
                                         }
  
                                     figcaption {
@@ -290,6 +292,199 @@ blockquote_layout = '''
 
 '''
 
+card_layout = '''
+<section class="saas-container">
+    <div class="saas-header">
+        <div class="saas-header-content">
+            <h2 class="title">A creative canvas for all</h2>
+            <div class="description">
+                <p>Figma’s intuitive interface and features were built for the web, enabling industry experts and amateur designers alike to design with ease.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="saas-features">
+        <div class="feature-item">
+            <div class="video-container">
+                <video src="https://cdn.sanity.io/files/599r6htc/regionalized/f4393bc0f837824365e10d57f09c4eb5c3454c04.mp4" autoplay loop playsinline></video>
+                <button aria-label="pause" class="video-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" fill="none" viewBox="0 0 16 14">
+                        <path fill="currentColor" d="M9.91 0h6.1v13.71h-6.1zM0 0h6.1v13.71H0z"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="feature-description">
+                <h3>Adjust layers in layout</h3>
+                <p>Uniformly rearrange, reorder, or adjust layers in your design with smart select.</p>
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="video-container">
+                <video src="https://cdn.sanity.io/files/599r6htc/regionalized/e414de9bdb45e752b36dc76e3838977534ec4106.mp4" autoplay loop playsinline></video>
+                <button aria-label="pause" class="video-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" fill="none" viewBox="0 0 16 14">
+                        <path fill="currentColor" d="M9.91 0h6.1v13.71h-6.1zM0 0h6.1v13.71H0z"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="feature-description">
+                <h3>Work smarter not harder</h3>
+                <p>Spend more time actually designing—and less time manually resizing—with fully responsive auto layout.</p>
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="image-container">
+                <img src="https://cdn.sanity.io/images/599r6htc/regionalized/db4d9a95cd8228015a990a57914f12166b33395f-1560x1248.png" alt="Cursor selecting branch" />
+            </div>
+            <div class="feature-description">
+                <h3>Branch off to iterate on design options</h3>
+                <p>Use branching to freely explore possibilities, then bring those updates into your main design file with merging.</p>
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="image-container">
+                <img src="https://cdn.sanity.io/images/599r6htc/regionalized/fca396cd86065534e818b7f763a8d2434b13751e-1560x1248.png" alt="Checkout flow" />
+            </div>
+            <div class="feature-description">
+                <h3>Get organized</h3>
+                <p>Add sections and pages to files so designers, developers, and everyone in between can easily understand your files.</p>
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="image-container">
+                <img src="https://cdn.sanity.io/images/599r6htc/regionalized/6538929bdeab8c11b7e97274a48e55fb68c701c3-1560x1248.png" alt="Drawing vector points" />
+            </div>
+            <div class="feature-description">
+                <h3>Create vectors</h3>
+                <p>Use the pen tool to draw vector networks in any direction—no need to merge or connect to the path’s original point.</p>
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="video-container">
+                <video src="https://cdn.sanity.io/files/599r6htc/regionalized/573aaec95445820a9f33d569edf5ae3180b413e2.mp4" autoplay loop playsinline></video>
+                <button aria-label="pause" class="video-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" fill="none" viewBox="0 0 16 14">
+                        <path fill="currentColor" d="M9.91 0h6.1v13.71h-6.1zM0 0h6.1v13.71H0z"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="feature-description">
+                <h3>Customize type</h3>
+                <p>Enjoy more control and better creative expression with OpenType and variable fonts in Figma.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+/* Container Styling */
+.saas-container {
+    font-family: Arial, sans-serif;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header Section */
+.saas-header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.saas-header .title {
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.saas-header .description p {
+    color: #777;
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+/* Features Section */
+.saas-features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* Individual Feature Item */
+.feature-item {
+    width: 48%;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.feature-description h3 {
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+.feature-description p {
+    color: #555;
+    font-size: 1rem;
+}
+
+/* Image and Video Containers */
+.video-container {
+    position: relative;
+    background-color: #f4f4f4;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+}
+
+.video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.video-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.image-container {
+    position: relative;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .feature-item {
+        width: 100%;
+    }
+
+    .saas-header .title {
+        font-size: 2rem;
+    }
+
+    .saas-header .description p {
+        font-size: 1rem;
+    }
+}
+
+'''
 
 grid_layout = """
 

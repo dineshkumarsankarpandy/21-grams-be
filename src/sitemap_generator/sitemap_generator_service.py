@@ -3,6 +3,7 @@ from .sitemap_generator_entity import SitemapGenerator as SitemapGeneratorEntity
 from nest.core.decorators.database import async_db_request_handler
 from nest.core import Injectable
 import openai
+from agents import Agent
 import os
 import json
 import requests

@@ -10,7 +10,7 @@ def get_llm_response(user_prompt, system_prompt):
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt}
-                ]
+                ],
             )
             res = response.choices[0].message.content
             return res

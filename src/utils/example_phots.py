@@ -45,38 +45,50 @@ logos = {
 
 implementation_step = '''
 
-                           <div id="logo-container" class="grid grid-cols-3 gap-4">
-  <!-- Logos will be injected here -->
-</div>
+          <div id="logo-container" class="grid grid-cols-3 gap-4">
+            <!-- Logos will be injected here -->
 
-<script>
-  const logoData = {
-    "logos": [
-      "https://cdn.prod.website-files.com/66e88746834b80507cdf7933/66e8a82d52566d454c99501c_Discord.svg",
-      "https://cdn.prod.website-files.com/66e88746834b80507cdf7933/66e8a82d52566d454c994fcd_NCR.svg",
-      "https://cdn.prod.website-files.com/66e88746834b80507cdf7933/67c9bb1d7c6fbfb04e6aec52_spotify.svg",
-      "https://cdn.prod.website-files.com/66e88746834b80507cdf7933/66e8a82b52566d454c994910_mondaycom.svg",
-      "https://cdn.prod.website-files.com/66e88746834b80507cdf7933/66e8a82d52566d454c994fdb_Ted.svg",
-      "https://cdn.prod.website-files.com/66e88746834b80507cdf7933/66e8a82d52566d454c994fba_Dropbox.svg"
-    ]
-  };
+            <div class="group">
+              <div class="card">A</div>
+              <div class="card">B</div>
+              <div class="card">C</div>
+            </div>
+            <!-- Add `aria-hidden` to hide the duplicated cards from screen readers. -->
+            <div aria-hidden class="group">
+              <div class="card">A</div>
+              <div class="card">B</div>
+              <div class="card">C</div>
+            </div>
+          </div>
 
-  const container = document.getElementById("logo-container");
+          <script>
+            const logoData = {
+              "logos": [
+                "https://cdn.prod.website-files.com/66e88746834b80507cdf7933/66e8a82d52566d454c99501c_Discord.svg",
+                "https://cdn.prod.website-files.com/66e88746834b80507cdf7933/66e8a82d52566d454c994fcd_NCR.svg",
+                "https://cdn.prod.website-files.com/66e88746834b80507cdf7933/67c9bb1d7c6fbfb04e6aec52_spotify.svg",
+                "https://cdn.prod.website-files.com/66e88746834b80507cdf7933/66e8a82b52566d454c994910_mondaycom.svg",
+                "https://cdn.prod.website-files.com/66e88746834b80507cdf7933/66e8a82d52566d454c994fdb_Ted.svg",
+                "https://cdn.prod.website-files.com/66e88746834b80507cdf7933/66e8a82d52566d454c994fba_Dropbox.svg"
+              ]
+            };
 
-  logoData.logos.forEach(logoUrl => {
-    const img = document.createElement("img");
-    img.src = logoUrl;
-    img.alt = "Company Logo";
-    img.classList.add("w-24", "h-auto", "filter", "brightness-0"); // Apply black color filter
-    container.appendChild(img);
-  });
-</script>
+            const container = document.getElementById("logo-container");
 
-<style>
-  img {
-    filter: brightness(0); /* Ensures all logos turn black */
-  }
-</style>
+            logoData.logos.forEach(logoUrl => {
+              const img = document.createElement("img");
+              img.src = logoUrl;
+              img.alt = "Company Logo";
+              img.classList.add("w-24", "h-auto", "filter", "brightness-0"); // Apply black color filter
+              container.appendChild(img);
+            });
+          </script>
+
+          <style>
+            img {
+              filter: brightness(0); /* Ensures all logos turn black */
+            }
+          </style>
 
 
 
