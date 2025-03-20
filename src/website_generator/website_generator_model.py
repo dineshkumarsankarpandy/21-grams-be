@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Dict,Optional
+from typing import List, Any
 
 
 class Section(BaseModel):
@@ -7,16 +7,16 @@ class Section(BaseModel):
     sectionDescription: str = Field(...)
 
 
+
 class Sitemap(BaseModel):
-    businessName: str = Field(...)
-    businessDescription: str = Field(...)
-    imageUrl:Optional[str] = Field(...)
+    projectBrief: Any
     pageTitle: str = Field(...)
     sections: List[Section] = Field(...)
 
 
 
-
+class Website(BaseModel):
+    code: str = Field(..., description="The generated website code")
     
 
 

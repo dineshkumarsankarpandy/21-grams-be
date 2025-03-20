@@ -1,4 +1,4 @@
-from .website_generator_model import Sitemap
+from .website_generator_model import Sitemap,Website
 from .website_generator_entity import WebsiteGenerator as WebsiteGeneratorEntity
 from nest.core.decorators.database import async_db_request_handler
 from nest.core import Injectable
@@ -32,55 +32,55 @@ class WebsiteGeneratorService:
         return result.scalars().all()
     
     async def generate_website(self, data: Sitemap):
-        prompt = """
-        You are an expert content optimizer specializing in concise descriptions for website sections. Your task is to analyze a JSON object representing a website's structure, specifically the `sections` array within each page, and rewrite the `sectionDescription` to be a concise, action-oriented statement of purpose. Maintain the same JSON structure.
+        # prompt = """
+        # You are an expert content optimizer specializing in concise descriptions for website sections. Your task is to analyze a JSON object representing a website's structure, specifically the `sections` array within each page, and rewrite the `sectionDescription` to be a concise, action-oriented statement of purpose. Maintain the same JSON structure.
 
-        **Characteristics of Excellent Statements of Purpose (for sectionDescription):**
+        # **Characteristics of Excellent Statements of Purpose (for sectionDescription):**
 
-        * **Action-Oriented:** Start with a strong verb indicating the section's intended outcome.
-        * **Concise:** Use as few words as possible to convey the core message.
-        * **Clear and Unambiguous:** Easily understood.
-        * **Specific:** Focus on the purpose of that section.
-        * **User-Centric:** Consider the user's perspective.
+        # * **Action-Oriented:** Start with a strong verb indicating the section's intended outcome.
+        # * **Concise:** Use as few words as possible to convey the core message.
+        # * **Clear and Unambiguous:** Easily understood.
+        # * **Specific:** Focus on the purpose of that section.
+        # * **User-Centric:** Consider the user's perspective.
 
-        **Example Input JSON:**
+        # **Example Input JSON:**
 
-        ```json
-        {
-            "pageTitle": "Homepage",
-            "sections": [
-                {
-                    "sectionTitle": "Hero Section",
-                    "sectionDescription": "This section introduces the product with a captivating headline and visuals."
-                },
-                {
-                    "sectionTitle": "Features Section",
-                    "sectionDescription": "This section highlights the key features of the product and their benefits."
-                }
-            ]
-        }
-        ```
+        # ```json
+        # {
+        #     "pageTitle": "Homepage",
+        #     "sections": [
+        #         {
+        #             "sectionTitle": "Hero Section",
+        #             "sectionDescription": "This section introduces the product with a captivating headline and visuals."
+        #         },
+        #         {
+        #             "sectionTitle": "Features Section",
+        #             "sectionDescription": "This section highlights the key features of the product and their benefits."
+        #         }
+        #     ]
+        # }
+        # ```
 
-        **Example Output JSON (with tweaked sectionDescription):**
-        {
-            "pageTitle": "Homepage",
-            "sections": [
-                {
-                    "sectionTitle": "Hero Section",
-                    "sectionDescription": "Introduce the product with captivating visuals and headlines."
-                },
-                {
-                    "sectionTitle": "Features Section",
-                    "sectionDescription": "Highlight key product features and their benefits."
-                }
-            ]
-        }
-        """
-        response = get_llm_response(
-            user_prompt=f"Please process the following JSON according to the instructions in the system prompt:{data.sections}",
-            system_prompt=prompt
-        )
-        json_res = json.loads(response)
+        # **Example Output JSON (with tweaked sectionDescription):**
+        # {
+        #     "pageTitle": "Homepage",
+        #     "sections": [
+        #         {
+        #             "sectionTitle": "Hero Section",
+        #             "sectionDescription": "Introduce the product with captivating visuals and headlines."
+        #         },
+        #         {
+        #             "sectionTitle": "Features Section",
+        #             "sectionDescription": "Highlight key product features and their benefits."
+        #         }
+        #     ]
+        # }
+        # """
+        # response = get_llm_response(
+        #     user_prompt=f"Please process the following JSON according to the instructions in the system prompt:{data.sections}",
+        #     system_prompt=prompt
+        # )
+        # json_res = json.loads(response)
    
         output_json = '''
                 
@@ -90,60 +90,21 @@ class WebsiteGeneratorService:
 
                         '''
         
-        typescale = '''
+        project_brief = '''
+                {
+                "business_name":"Plan Z",
+                "business_description":"Plan Z is a creative agency that specializes in innovative UI/UX design, branding, and digital experiences. With a blend of storytelling, aesthetics, and functionality, we craft visually compelling and user-friendly designs. 
+                Our expertise extends to website and app design, product branding, and strategic design consulting, ensuring that every project resonates with its target audience while strengthening brand identity.",
+                "website_goal":"Develop a dynamic and engaging digital presence that effectively showcases our creative portfolio, highlights our design expertise, and attracts a diverse range of clients seeking exceptional digital solutions.",
+                "target_audience":"Businesses of all sizes, startups, and established organizations in need of innovative design solutions to enhance their brand identity and user experience."
+                }
+            '''
 
-                                                                                                                    h1 {
-                                                    font-size: 7.594rem;
-                                                    }
-                                                    
-                                                    h2 {
-                                                    font-size: 5.063rem;
-                                                    }
-                                                    
-                                                    h3 {
-                                                    font-size: 3.375rem;
-                                                    }
-                                                    
-                                                    h4 {
-                                                    font-size: 2.25rem;
-                                                    }
-                                                    
-                                                    h5 {
-                                                    font-size: 1.5rem;
-                                                    }
-                                                    
-                                                    h6 {
-                                                    font-size: 1rem;
-                                                    }
-                                                    
-                                                    p {
-                                                    font-size: 1rem;
-                                                    }
-                                                    
-                                                    small {
-                                                    font-size: 0.667rem;
-                                                    }
-                                                    
-
-                                                    .text-extra-small {
-                                                    font-size: 0.444rem; 
-                                                    }
-   
-
-
-'''
 
         web_res = get_llm_response(
-            user_prompt= f"""please create me a landing page using grids make it creative designed extremely well. create all components required
-  {data.businessName}, {data.businessDescription}, {response}""",
+            user_prompt= f"""please create me a landing page using grids make it creative designed extremely well.
+              create all components required {data.sections},{project_brief}""",
                 system_prompt = f'''
-        )
-
-        try:
-            json_web = json.loads(web_res)
-        except json.JSONDecodeError:
-            raise ValueError("Invalid JSON response received from LLM")
-
                 As a specialized AI agent in crafting beautiful websites with considering responsiveness understanding the requirement domain and the given user requirement with the Instructions you have, complete it.
                                         
                     <Rules>
@@ -235,30 +196,14 @@ class WebsiteGeneratorService:
                     Tool Tip: Check your combinations with WebAIM’s Contrast Checker.
                     Result: Adhering to these ratios makes your site inclusive and user-friendly, while also boosting accessibility and SEO.
                     
-                    <color>        
-                     {color}
-                    </color>
-
-
-
                     - Import suitable google fonts for the brand
-                    <typescale>
-                    - Generate typescale at a scale of 1.5(perfect fifth) with a base font size of 16px.
-                    - use this typescale.
-                       {typescale}
-                    </typescale>
-
+                    - Choose a color palette that aligns with the brand identity
                     - Generate Section copy based on frameworks
                     - More importance on the Home page - the value proposition of the platform is given so much emphasis and “time to shine” on the homepage, it’s crystal clear to website visitors what the added value is that they’re about to encounter.
                     - For Each section Think of the best  15 ways you can represent them and pick one among each sections
                     - Each section would have evolved a lot understand them and implement it
                                 
-                                 
-                    <Hero-section-images>
-                           use this image folder path directly in HTML for hero section using this format
-                           <img src ="/src/images/hero_images.png" alt="Hero Section Image" /> 
-                           avoid using placeholders images for this Hero section.
-                    </Hero-section-images>
+                 
                                 - for image placeholders use this  input the necessary value <img src= https://placehold.co/widthxheight/bgColor/textColor'' alt="Placeholder image" style= width, height  />
                                 -for testimonials, team members, our team, founders, individual members use these {user_profile_photos}    
                                 </Rules>
@@ -311,9 +256,6 @@ class WebsiteGeneratorService:
                     Eco-conscious consumers
                     Trendsetters and influencers
                     
-                    <example-section>
-                        {layout}
-                    </example-section>
 
                     <Photo-library>
                     use this cdn links from the example for square photos.{user_profile_photos}
@@ -349,13 +291,15 @@ class WebsiteGeneratorService:
                     Pick the appropriate webflow component layout.
 
                     dont response anyother than code.
-                    Make sure response in json format.
-                    {output_json}
+                   
 
-                        '''
+                        ''',
+                        response_format= Website
         )
         
-        json_web = json.loads(web_res)
+        json_web = web_res.model_dump_json()
+        json_res = json.loads(json_web)
+        
          
         
-        return json_web
+        return json_res
