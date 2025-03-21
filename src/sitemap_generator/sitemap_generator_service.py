@@ -117,11 +117,9 @@ class SitemapGeneratorService:
             system_prompt=prompt,
             response_format= ProjectBrief
         )
-
-        json_res = response.model_dump_json()
-        project_brief = json.loads(json_res)
+        json_project = response.model_dump_json()
+        project_brief = json.loads(json_project)
         print('-------------------------------------------')
-        print(json_res)
         print('-------------------------------------------')
     
 
@@ -130,9 +128,11 @@ class SitemapGeneratorService:
                 You are a Website Strategist tasked with building a strong website foundation.
                 Your goal is to ensure strategic alignment with business objectives through thorough research,data-driven decision-making, and a clear understanding of the business's value proposition.
                 Approach each decision with a focus on clarity, usability, and long-term scalability.
+
+                
         '''
         response = get_llm_response(
-            user_prompt=f"Generate a sitemap for a website representing the business '{json_res}'.",
+            user_prompt=f"Generate a sitemap for a website representing the business '{project_brief}'.",
             system_prompt=sitemap_prompt,
             response_format=Pages
         )

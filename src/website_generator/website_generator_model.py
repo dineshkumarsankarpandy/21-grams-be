@@ -1,17 +1,14 @@
 from pydantic import BaseModel, Field
-from typing import List, Any
+from typing import  Any
 
 
-class Section(BaseModel):
-    sectionTitle: str = Field(...)
-    sectionDescription: str = Field(...)
 
 
 
 class Sitemap(BaseModel):
     projectBrief: Any
     pageTitle: str = Field(...)
-    sections: List[Section] = Field(...)
+    sections: Any
 
 
 

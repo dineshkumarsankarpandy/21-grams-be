@@ -179,6 +179,36 @@ class SectionName(str, Enum):
     Comparison_Section = "Comparison Section"
 
 
+
+
+
+# {
+#     section:{
+#         Layout:{
+#             Grid:"Grid",
+#             Flexbox:"Flexbox",
+#         }
+#         UiElements:
+#             [{
+#                 ui_element_type:[UIElementType],
+#                 alignment:[alignment],
+#                 spacing:[spacing]
+#             },
+#             {
+#                 ui_element_type:[UIElementType],
+#                 alignment:[alignment],
+#                 spacing:[spacing]
+#             }
+#             ],        
+#     }
+# }
+
+
+
+
+
+
+
 class SectionOutline(BaseModel):
     section_name: SectionName = Field(
         description="Use only the section names to name the section"
@@ -186,7 +216,8 @@ class SectionOutline(BaseModel):
     section_instruction: str = Field(
         description=" Instruction to describe what the section should contian keep the sentence short"
     )
-    section_description: str = Field(description="Description about the section and its children in a sentence")
+    section_description:str = Field(description="Description about the section and its children in a sentence")
+   
 
 
 class Page(BaseModel):
